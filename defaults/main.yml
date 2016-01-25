@@ -2,13 +2,13 @@
 # defaults file for ansible-samba
 pri_domain_name: example.org
 samba_ad_info:
-  - ad_dc_hostname: '{{ ansible_hostname }}'
-    ad_dns_domain_name: '{{ pri_domain_name }}'
-    kerberos_realm: '{{ pri_domain_name }}'
-    netbios_domain_name: EXAMPLE
-    server_role:
-    domain_admin_pass:
-    backend_dns:
+  ad_dc_hostname: '{{ ansible_hostname }}'
+  ad_dns_domain_name: '{{ pri_domain_name }}'
+  kerberos_realm: '{{ pri_domain_name }}'
+  netbios_domain_name: EXAMPLE
+  server_role:
+  domain_admin_pass:
+  backend_dns:
 samba_shares:
   - name: data
     mntp: /data

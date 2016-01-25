@@ -1,2 +1,4 @@
 ---
 # tasks file for ansible-samba
+- include: debian.yml
+  when: ansible_os_family == "Debian"

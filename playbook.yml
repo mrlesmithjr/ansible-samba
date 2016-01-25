@@ -1,0 +1,8 @@
+---
+- name: provisions samba
+  hosts: all
+  become: true
+  vars:
+  roles:
+    - role: ansible-samba
+  tasks:
