@@ -24,7 +24,7 @@ samba_shares:
     writable: 'yes'
     guest_ok: 'yes'
     read_only: 'no'
-    folder_perms: 0755
+    folder_perms: '0755'
     owner: 'nobody'
     group: 'nogroup'
 samba_workgroup: 'EXAMPLE'
