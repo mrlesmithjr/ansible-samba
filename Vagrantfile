@@ -15,6 +15,16 @@ Vagrant.configure(2) do |config|
     samba.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
     end
+    samba.vm.provision :shell, path: "provision.sh", keep_color: "true"
   end
-  config.vm.provision :shell, path: "provision.sh", keep_color: "true"
+  config.vm.define "server2012" do |server2012|
+    server2012.vm.box = "devopsguys/Windows2012R2Eval"
+    server2012.vm.hostname = "server2012"
+
+    server2012.vm.network :private_network, ip: "192.168.202.202"
+
+    server2012.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+    end
+  end
 end
