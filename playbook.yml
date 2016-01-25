@@ -5,6 +5,7 @@
   vars:
     - enable_dhcp_services: false
     - samba_create_domain_controller: true
+    - samba_server_role: 'active directory domain controller'  #defines server role...(standalone server or active directory domain controller)
   roles:
     - role: ansible-isc-dhcp
       when: enable_dhcp_services is defined and enable_dhcp_services
