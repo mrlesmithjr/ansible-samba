@@ -1,6 +1,11 @@
 ---
 # handlers file for ansible-samba
-- name: restart samba
+- name: restart nmbd
   service:
-    name: "samba"
+    name: "nmbd"
+    state: restarted
+    
+- name: restart smbd
+  service:
+    name: "smbd"
     state: restarted
