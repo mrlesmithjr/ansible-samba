@@ -1,4 +1,10 @@
 ---
+- name: create_shares | ensuring groups exist
+  group:
+    name: "{{ item.group }}"
+    state: present
+  with_items: samba_shares
+  
 - name: create_shares | creating shared directories
   file:
     path: "{{ item.path }}/{{ item.name }}"
