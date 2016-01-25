@@ -1,14 +1,17 @@
 ---
 - name: config_samba | configuring samba
   template:
-    src: "etc/samba/smb.conf.j2"
-    dest: "/etc/samba/smb.conf"
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
     owner: root
     group: root
     mode: 0644
   notify:
     - restart nmbd
     - restart smbd
+  with_items:
+    - 'etc/krb5.conf'
+    - 'etc/samba/smb.conf'
 
 - name: config_samba | checking if domain created
   stat:
@@ -27,4 +30,6 @@
   file:
     dest: "/var/log/.samba_ad_created"
     state: touch
-  when: samba_ad_created.changed
+  when: >
+        samba_ad_created.changed and
+        not samba_ad_created_check.stat.exists
