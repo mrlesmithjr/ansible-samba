@@ -10,7 +10,7 @@
         dcerpc endpoint servers = epmapper, wkssvc, rpcecho, samr, netlogon, lsarpc, spoolss, drsuapi, dssetup, unixinfo, browser, eventlog6, backupkey, dnsserver, winreg, srvsvc
 
 [netlogon]
-        path = /var/lib/samba/sysvol/test.lab.fischer-its.com/scripts
+        path = /var/lib/samba/sysvol/{{ samba_ad_info.kerberos_realm|lower }}/scripts
         read only = No
 
 [sysvol]

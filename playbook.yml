@@ -4,7 +4,7 @@
   become: true
   vars:
     - enable_dhcp_services: false
-    - samba_create_domain_controller: false
+    - samba_create_domain_controller: true
   roles:
     - role: ansible-isc-dhcp
       when: enable_dhcp_services is defined and enable_dhcp_services
