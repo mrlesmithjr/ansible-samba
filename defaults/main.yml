@@ -35,6 +35,14 @@ samba_shares:
     path: '/mnt/samba/allaccess'
     valid_users: '@securedgroup'
     writable: 'yes'
+  - name: 'test'
+    browsable: 'yes'
+    folder_perms: '0770'
+    group: 'testgroup'
+    guest_ok: 'no'
+    path: '/mnt/samba/test'
+    valid_users: '@testgroup'
+    writable: 'yes'
 samba_users:  #define users to create
   - name: 'vagrant'  #define user name to create
     groups:  #define groups to add user to...ensure samba_groups names exist.
