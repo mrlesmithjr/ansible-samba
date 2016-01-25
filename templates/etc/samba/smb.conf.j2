@@ -115,6 +115,8 @@
 
 {% endif %}
 {% if samba_shares is defined %}
+#======================= Share Definitions =======================
+
 {%   for item in samba_shares %}
 [{{ item.name }}]
 browsable = {{ item.browsable|lower }}
