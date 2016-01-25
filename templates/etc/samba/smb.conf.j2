@@ -45,11 +45,7 @@
 ## Browsing/Identification ###
 
 # Change this to the workgroup/NT-domain name your Samba server will part of
-{% if samba_workgroup is defined %}
    workgroup = {{ samba_workgroup|upper }}
-{% elif samba_workgroup is not defined %}
-   workgroup = WORKGROUP
-{% elif %}
 
 # server string is the equivalent of the NT Description field
 	server string = %h server (Samba, Ubuntu)
