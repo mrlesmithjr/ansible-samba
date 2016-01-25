@@ -25,7 +25,9 @@
 #    - pkg-config
 #    - python-dev
 #    - python-dnspython
+    - python-glade2
     - samba
     - samba-common
 #    - smbclient
     - smbldap-tools
+    - system-config-samba
