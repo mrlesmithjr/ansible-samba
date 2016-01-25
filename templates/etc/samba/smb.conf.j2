@@ -4,7 +4,7 @@
         workgroup = {{ samba_ad_info.netbios_domain_name|upper }}
         realm = {{ samba_ad_info.kerberos_realm|upper }}
         netbios name = {{ ansible_hostname|upper }}
-        server role = {{ samba_ad_info.server_role }}
+        server role = {{ samba_server_role }}
         dns forwarder = {{ samba_ad_info.dns_forwarder }}
         server services = rpc, nbt, wrepl, ldap, cldap, kdc, drepl, winbind, ntp_signd, kcc, dnsupdate, dns, smb
         dcerpc endpoint servers = epmapper, wkssvc, rpcecho, samr, netlogon, lsarpc, spoolss, drsuapi, dssetup, unixinfo, browser, eventlog6, backupkey, dnsserver, winreg, srvsvc
@@ -45,7 +45,11 @@
 ## Browsing/Identification ###
 
 # Change this to the workgroup/NT-domain name your Samba server will part of
+{% if samba_workgroup is defined %}
+   workgroup = {{ samba_workgroup|upper }}
+{% elif samba_workgroup is not defined %}
    workgroup = WORKGROUP
+{% elif %}
 
 # server string is the equivalent of the NT Description field
 	server string = %h server (Samba, Ubuntu)
@@ -110,7 +114,7 @@
 # Running as "active directory domain controller" will require first
 # running "samba-tool domain provision" to wipe databases and create a
 # new domain.
-   server role = standalone server
+   server role = {{ samba_server_role }}
 
 # If you are using encrypted passwords, Samba will need to know what
 # password database type you are using.
@@ -202,7 +206,7 @@
 
 # Allow users who've been granted usershare privileges to create
 # public shares, not just authenticated ones
-   usershare allow guests = yes
+   usershare allow guests = {{ samba_allow_guests|lower }}
 
 #======================= Share Definitions =======================
 
