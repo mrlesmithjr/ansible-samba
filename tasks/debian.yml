@@ -26,5 +26,6 @@
 #    - python-dev
 #    - python-dnspython
     - samba
+    - samba-common
 #    - smbclient
     - smbldap-tools

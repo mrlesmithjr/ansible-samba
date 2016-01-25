@@ -3,4 +3,6 @@
 - include: debian.yml
   when: ansible_os_family == "Debian"
 
+- include: create_shares.yml
+
 - include: config_samba.yml

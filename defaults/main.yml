@@ -11,10 +11,20 @@ samba_ad_info:
   netbios_domain_name: 'EXAMPLE'
 samba_allow_guests: 'yes'  #Allow users who've been granted usershare privileges to create public shares, not just authenticated ones
 samba_create_domain_controller: false  #defines if you are building an Active Directory domain controller
+samba_security: 'user'  #Defines samba security
 samba_server_role: 'standalone server'  #defines server role...(standalone server or active directory domain controller)
 samba_shares:
-  - name: data
-    mntp: /data
-    filesystem: ext4
-    mount_options: 'user_xattr,acl,barrier=1,noatime'
-samba_workgroup: 'WORKGROUP'
+#  - name: data
+#    mntp: /data
+#    filesystem: ext4
+#    mount_options: 'user_xattr,acl,barrier=1,noatime'
+  - name: 'allaccess'
+    path: '/mnt/samba'
+    browsable: 'yes'
+    writable: 'yes'
+    guest_ok: 'yes'
+    read_only: 'no'
+    folder_perms: 0755
+    owner: 'nobody'
+    group: 'nogroup'
+samba_workgroup: 'EXAMPLE'

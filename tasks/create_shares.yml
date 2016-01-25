@@ -1,0 +1,8 @@
+---
+- name: create_shares | creating shared directories
+  file:
+    path: "{{ item.path }}/{{ item.name }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.folder_perms }}"
+    state: directory
