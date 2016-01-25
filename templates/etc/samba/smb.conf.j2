@@ -119,7 +119,7 @@
 [{{ item.name }}]
 browsable = {{ item.browsable|lower }}
 guest ok = {{ item.guest_ok|lower }}
-path = {{ item.path }}/{{ item.name }}
+path = {{ samba_share_path }}/{{ item.name }}
 {%     if item.read_only is defined %}
 read only = {{ item.read_only|lower }}
 {%     endif %}

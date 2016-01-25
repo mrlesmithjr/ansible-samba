@@ -17,6 +17,7 @@ samba_groups:  #define samba groups to create
   - 'testgroup'
 samba_security: 'user'  #Defines samba security
 samba_server_role: 'standalone server'  #defines server role...(standalone server or active directory domain controller)
+samba_share_path: '/mnt/samba/shares'  #defines root folder for samba shares to be created
 samba_shares:
   - name: 'allaccess'
     browsable: 'yes'
@@ -24,7 +25,6 @@ samba_shares:
     group: 'nogroup'
     guest_ok: 'yes'
     owner: 'nobody'
-    path: '/mnt/samba'
     read_only: 'no'
     writable: 'yes'
   - name: 'secured'
@@ -32,7 +32,6 @@ samba_shares:
     folder_perms: '0770'
     group: 'securedgroup'
     guest_ok: 'no'
-    path: '/mnt/samba/allaccess'
     valid_users: '@securedgroup'
     writable: 'yes'
   - name: 'test'
@@ -40,7 +39,6 @@ samba_shares:
     folder_perms: '0770'
     group: 'testgroup'
     guest_ok: 'no'
-    path: '/mnt/samba/test'
     valid_users: '@testgroup'
     writable: 'yes'
 samba_users:  #define users to create
