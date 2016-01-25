@@ -6,3 +6,4 @@
     group: "{{ item.group }}"
     mode: "{{ item.folder_perms }}"
     state: directory
+  with_items: samba_shares
