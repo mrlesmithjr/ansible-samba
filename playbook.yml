@@ -3,6 +3,11 @@
   hosts: all
   become: true
   vars:
+    - enable_dhcp_services: false
+    - samba_create_domain_controller: false
   roles:
+    - role: ansible-isc-dhp
+      when: enable_dhcp_services is defined and enable_dhcp_services
+    - role: ansible-ntp
     - role: ansible-samba
   tasks:

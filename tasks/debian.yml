@@ -25,5 +25,7 @@
     - pkg-config
     - python-dev
     - python-dnspython
+    - python-pip
     - samba
     - smbclient
+    - smbldap-tools

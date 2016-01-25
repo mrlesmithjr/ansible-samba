@@ -1,2 +1,6 @@
 ---
 # handlers file for ansible-samba
+- name: restart samba
+  service:
+    name: "samba"
+    state: restarted
