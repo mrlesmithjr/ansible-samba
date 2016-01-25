@@ -121,8 +121,9 @@ browsable = {{ item.browsable|lower }}
 guest ok = {{ item.guest_ok|lower }}
 path = {{ item.path }}/{{ item.name }}
 read only = {{ item.read_only|lower }}
-{% if item.valid_users is defined %}
+{%     if item.valid_users is defined %}
 valid users = {{ item.valid_users }}
+{%     endif %}
 writable = {{ item.writable|lower }}
 
 {%   endfor %}
