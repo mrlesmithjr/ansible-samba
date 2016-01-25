@@ -4,6 +4,7 @@ pri_domain_name: 'example.org'
 samba_ad_info:
   ad_dc_hostname: '{{ ansible_hostname }}'
   ad_dns_domain_name: '{{ pri_domain_name }}'
+  adminpass: 'P@55w0rd'
   backend_dns:
   dns_forwarder: 8.8.8.8
   domain_admin_pass:
