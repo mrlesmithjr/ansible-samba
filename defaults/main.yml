@@ -62,5 +62,5 @@ samba_users:  #define users to create
       - 'nogroup'
       - 'securedgroup'
       - 'testgroup'
-    smbpasswd: 'vagrant'  #define samba user password
+    smbpasswd: 'P@55w0rd'  #define samba user password
 samba_workgroup: 'EXAMPLE'
