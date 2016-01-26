@@ -1,0 +1,5 @@
+---
+- name: domain_users | creating domain users
+  command: "samba-tool user add {{ item.name }} '{{ item.password }}'"
+  with_items: samba_domain_users
+  failed_when: "'already in use' not in command_result.stderr"
