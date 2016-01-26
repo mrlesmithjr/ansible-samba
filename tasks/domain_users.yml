@@ -3,4 +3,6 @@
   command: "samba-tool user add {{ item.name }} '{{ item.password }}'"
   register: command_result
   with_items: samba_domain_users
-  failed_when: "'already in use' not in command_result.stderr"
+  failed_when: >
+               "'already in use' not in command_result.stderr" or
+               "'created successfully' not in command_result.stderr"
