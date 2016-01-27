@@ -4,6 +4,11 @@
   service:
     name: "nmbd"
     state: restarted
+
+- name: restart samba-ad-dc
+  service:
+    name: "samba-ad-dc"
+    state: restarted
     
 - name: restart smbd
   service:

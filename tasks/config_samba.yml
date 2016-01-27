@@ -8,6 +8,7 @@
     mode: 0644
   notify:
     - restart nmbd
+    - restart samba-ad-dc
     - restart smbd
   with_items:
     - 'etc/krb5.conf'
