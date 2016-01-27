@@ -37,6 +37,12 @@ samba_ad_info:
   netbios_domain_name: 'EXAMPLE'
 samba_allow_guests: 'yes'  #Allow users who've been granted usershare privileges to create public shares, not just authenticated ones
 samba_create_domain_controller: false  #defines if you are building an Active Directory domain controller
+samba_create_domain_users: false  #defines if users defined in samba_domain_users list should be created
+samba_domain_users:
+  - name: 'test01'
+    password: 'P@55w0rd'
+  - name: 'test02'
+    password: 'P@55w0rd'
 samba_groups:  #define samba groups to create
   - 'nogroup'
   - 'securedgroup'
@@ -81,7 +87,7 @@ samba_users:  #define users to create
       - 'nogroup'
       - 'securedgroup'
       - 'testgroup'
-    smbpasswd: 'vagrant'  #define samba user password
+    smbpasswd: 'P@55w0rd'  #define samba user password
 samba_workgroup: 'EXAMPLE'
 ````
 
