@@ -1,7 +1,7 @@
 ---
 - name: config_samba | configuring samba
   template:
-    src: etc/samba/smb.conf
+    src: etc/samba/smb.conf.j2
     dest: /etc/samba/smb.conf
     owner: root
     group: root
