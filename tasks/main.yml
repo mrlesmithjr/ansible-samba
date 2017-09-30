@@ -14,6 +14,9 @@
 
 - include: config_samba.yml
 
+- include: create_domain.yml
+  when: samba_create_domain_controller
+
 - include: domain_users.yml
   when: >
         samba_create_domain_users is defined and
