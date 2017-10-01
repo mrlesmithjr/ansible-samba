@@ -10,6 +10,7 @@
         dcerpc endpoint servers = epmapper, wkssvc, rpcecho, samr, netlogon, lsarpc, spoolss, drsuapi, dssetup, unixinfo, browser, eventlog6, backupkey, dnsserver, winreg, srvsvc
         allow dns updates = {{ samba_ad_info.allow_dns_updates }}
         idmap_ldb:use rfc2307 = yes
+
 [netlogon]
         path = /var/lib/samba/sysvol/{{ samba_ad_info.kerberos_realm|lower }}/scripts
         read only = No
