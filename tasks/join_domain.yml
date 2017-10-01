@@ -5,7 +5,7 @@
   register: samba_ad_join_check
 
 - name: join_domain | Joining Domain
-  shell: samba-tool domain join {{ samba_ad_info['ad_dns_domain_name'] }} DC  -U"{{ samba_ad_info['netbios_domain_name']|upper }}\administrator" --adminpass={{ samba_ad_info['adminpass'] }}
+  shell: samba-tool domain join {{ samba_ad_info['ad_dns_domain_name'] }} DC --username="{{ samba_ad_info['netbios_domain_name']|upper }}\administrator" --password="{{ samba_ad_info['adminpass'] }}"
   become: true
   register: _samba_domain_joined
   when: not samba_ad_join_check['stat']['exists']
