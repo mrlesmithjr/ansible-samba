@@ -6,6 +6,7 @@
   with_items:
     - samba
     - samba-common
+  when: samba_from_os
 
 - name: debian | Installing Packages When Domain Controller
   apt:
@@ -18,4 +19,4 @@
     - libnss-winbind
     - libpam-winbind
     - winbind
-  when: samba_create_domain_controller
+  when: (samba_create_domain_controller and samba_from_os)
