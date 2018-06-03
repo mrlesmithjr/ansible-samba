@@ -7,5 +7,4 @@
     group: root
     mode: 0644
   notify:
-    - restart nmbd
-    - restart smbd
+    - restart samba-ad-dc
