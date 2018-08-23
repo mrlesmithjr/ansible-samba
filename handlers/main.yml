@@ -23,3 +23,7 @@
   when: >
         ansible_os_family == "Debian" or
         samba_server_role == "standalone server"
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
