@@ -1,0 +1,112 @@
+---
+
+- name: source_install | create samba source directory
+  file:
+    name: "/usr/local/src/samba"
+    state: directory
+
+- name: source_install | check if samba is already installed from source
+  stat:
+    path: /usr/local/sbin/samba
+  register: __samba_source_installed
+
+- name: source_install | fetch and unpack samba source tarball
+  unarchive:
+    src: "https://download.samba.org/pub/samba/samba-{{ samba_source_version }}.tar.gz"
+    dest: "/usr/local/src/samba/"
+    remote_src: true
+    creates: "/usr/local/src/samba/samba-{{ samba_source_version }}"
+  register: __samba_unarchive
+  when: samba_source_upgrade or not __samba_source_installed.stat.exists
+
+- name: source_install | run samba configure script
+  command: >
+    ./configure --prefix=/usr/local
+      --localstatedir=/var/local \
+      --with-configdir=/etc/samba \
+      --libdir=/usr/local/lib64 \
+      --with-modulesdir=/usr/local/lib64/samba \
+      --with-pammodulesdir=/lib64/security \
+      --with-lockdir=/var/local/lib/samba \
+      --with-logfilebase=/var/log/samba \
+      --with-piddir=/run/samba \
+      --with-privatedir=/etc/samba \
+      --enable-cups \
+      --with-acl-support \
+      --with-ads \
+      --with-automount \
+      --enable-fhs \
+      --with-pam \
+      --with-quotas \
+      --with-shared-modules=idmap_rid,idmap_ad,idmap_hash,idmap_adex \
+      --with-syslog \
+      --with-utmp \
+      --with-dnsupdate 
+  args:
+    chdir: "/usr/local/src/samba/samba-{{ samba_source_version }}"
+    creates: "/usr/local/src/samba/samba-{{ samba_source_version }}/bin/config.log"
+  when: samba_source_upgrade or not __samba_source_installed.stat.exists
+
+- name: source_install | run samba Makefile default target (build)
+  make:
+    chdir: "/usr/local/src/samba/samba-{{ samba_source_version }}"
+  when: samba_source_upgrade or not __samba_source_installed.stat.exists
+
+- name: source_install | run samba Makefile install target (install)
+  make:
+    chdir: "/usr/local/src/samba/samba-{{ samba_source_version }}"
+    target: install
+  when: samba_source_upgrade or not __samba_source_installed.stat.exists
+
+- name: source_install | install samba tmpfile file
+  copy:
+    src: "etc/tmpfiles.d/samba.conf"
+    dest: "/etc/tmpfiles.d/samba.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: source_install | install samba-ad-dc systemd service file
+  copy:
+    src: "etc/systemd/system/samba-ad-dc.service"
+    dest: "/etc/systemd/system/samba-ad-dc.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: source_install | enable samba-ad-dc systemd service
+  systemd:
+    name: samba-ad-dc
+    enabled: yes
+    daemon_reload: yes
+
+- name: source_install | install remaining samba systemd service files
+  copy:
+    src: "/usr/local/src/samba/samba-{{ samba_source_version }}/bin/default/packaging/systemd/{{ item }}.service"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    remote_src: True
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - nmb
+    - smb
+  notify: reload systemd
+  when: samba_server_role == "standalone server"
+
+- name: source_install | enable remaining samba systemd services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - nmb
+    - smb
+  when: samba_server_role == "standalone server"
+
+#- name: remove samba build files
+#  file:
+#    path: "/usr/local/src/samba/samba-{{ samba_source_version }}"
+#    state: absent
+#  when: samba_source_upgrade or not __samba_source_installed.stat.exists

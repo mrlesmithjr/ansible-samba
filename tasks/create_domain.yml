@@ -18,7 +18,7 @@
   register: samba_ad_created_check
 
 - name: create_domain | configuring Active Directory
-  shell: "samba-tool domain provision --realm={{ samba_ad_info['kerberos_realm']|upper }} --domain={{ samba_ad_info['netbios_domain_name']|upper }} --adminpass='{{ samba_ad_info['adminpass'] }}' --server-role='domain controller' --use-rfc2307"
+  shell: "{{ samba_tool }} domain provision --realm={{ samba_ad_info['kerberos_realm']|upper }} --domain={{ samba_ad_info['netbios_domain_name']|upper }} --adminpass='{{ samba_ad_info['adminpass'] }}' --server-role='domain controller' --use-rfc2307"
   become: true
   register: samba_ad_created
   when: >

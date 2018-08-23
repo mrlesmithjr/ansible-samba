@@ -110,3 +110,9 @@ samba_use_printers: False
 samba_printer_type: cups
 samba_cups_server: 'localhost:631'
 
+# Compile and install Samba from source
+samba_source_install: false
+# Which Samba version to install
+samba_source_version: 4.8.4
+# Upgrade installation from source
+samba_source_upgrade: false

@@ -137,6 +137,13 @@ samba_users: []
   #   # Define samba user password
   #   smbpasswd: P@55w0rd
 samba_workgroup: "{{ samba_netbios_domain_name[0]|upper }}"
+
+# Compile and install Samba from source
+samba_source_install: false
+# Which Samba version to install
+samba_source_version: 4.8.4
+# Upgrade installation from source
+samba_source_upgrade: false
 ```
 
 ## Dependencies

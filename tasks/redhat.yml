@@ -1,0 +1,22 @@
+---
+
+- name: redhat | Installing Samba Build-Depends When Building From Source
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "@Development Tools"
+    - iniparser
+    - libldb
+    - libtalloc
+    - libtdb
+    - libtevent
+    - python-devel
+    - gnutls-devel
+    - libacl-devel
+    - openldap-devel
+    - pam-devel
+    - readline-devel
+    - krb5-devel
+    - cups-devel
+  when: samba_source_install

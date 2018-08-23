@@ -1,2 +1,7 @@
 ---
 # vars file for ansible-samba
+
+# On RHEL/CentOS, `/usr/local/bin` is not part of sudo $PATH, thus we give
+# the full path to binaries from there when installing from source.
+samba_tool: "{{ samba_source_install|ternary('/usr/local/bin/', '') }}samba-tool"
+smbpasswd: "{{ samba_source_install|ternary('/usr/local/bin/', '') }}smbpasswd"

@@ -6,8 +6,9 @@
   with_items:
     - samba
     - samba-common
+  when: not samba_source_install
 
-- name: debian | Installing Packages When Domain Controller
+- name: debian | Installing Kerberos Packages When Domain Controller
   apt:
     name: "{{ item }}"
     state: present
@@ -15,7 +16,21 @@
   with_items:
     - krb5-config
     - krb5-user
+  when: samba_create_domain_controller
+
+- name: debian | Installing Additional Samba Packages When Domain Controller
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
     - libnss-winbind
     - libpam-winbind
     - winbind
-  when: samba_create_domain_controller
+  when: samba_create_domain_controller and not samba_source_install
+
+- name: debian | Installing Samba Build-Depends When Building From Source
+  apt:
+    name: samba
+    state: build-dep
+  when: samba_source_install

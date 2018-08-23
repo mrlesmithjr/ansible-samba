@@ -4,13 +4,22 @@
   service:
     name: "nmbd"
     state: restarted
+  when: >
+        ansible_os_family == "Debian" or
+        samba_server_role == "standalone server"
 
 - name: restart samba-ad-dc
   service:
     name: "samba-ad-dc"
     state: restarted
+  when: >
+        ansible_os_family == "Debian" or
+        samba_server_role == "active directory domain controller"
     
 - name: restart smbd
   service:
     name: "smbd"
     state: restarted
+  when: >
+        ansible_os_family == "Debian" or
+        samba_server_role == "standalone server"
