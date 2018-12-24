@@ -1,7 +1,5 @@
 ---
 - hosts: localhost
   connection: local
-  vars:
-    samba_domain_controllers_group: all
   roles:
     - ansible-samba
