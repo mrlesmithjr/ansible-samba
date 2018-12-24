@@ -21,6 +21,7 @@
 - include: join_domain.yml
   when: >
     samba_create_domain_controller and
+    samba_domain_controllers_group is defined and
     inventory_hostname != samba_primary_domain_controller
 
 - include: domain_users.yml
@@ -30,6 +31,7 @@
   when: >
     samba_create_domain_users is defined and
     samba_create_domain_users and
+    samba_domain_controllers_group is defined and
     inventory_hostname == samba_primary_domain_controller
 
 - include: domain_groups.yml
@@ -39,4 +41,5 @@
   when: >
     samba_create_domain_groups is defined and
     samba_create_domain_groups and
+    samba_domain_controllers_group is defined and
     inventory_hostname == samba_primary_domain_controller
