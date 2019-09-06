@@ -4,8 +4,12 @@
   register: domain_users
 
 - name: domain_users | creating domain users
-  command: "samba-tool user add {{ item['name'] }} '{{ item['password'] }}'"
+  command: "samba-tool user create {{ item['name'] }} '{{ item['password'] }}'"
   #  ignore_errors: true   #defined for now to get around potential bug in failed_when conditionals
+  register: samba_temp_user_creation
+  failed_when:
+    - samba_temp_user_creation.rc != 0
+    - "'already exists' not in samba_temp_user_creation.stderr"
   become: true
   with_items: "{{ samba_domain_users }}"
   when: item['name'] not in domain_users['stdout']

@@ -1,0 +1,11 @@
+---
+
+- name: create OU's
+  command: "samba-tool ou create '{{ item['name'] }}' --description='{{ item['desc'] }}'"
+  #  ignore_errors: true   #defined for now to get around potential bug in failed_when conditionals
+  register: samba_temp_ou_creation
+  failed_when:
+    - samba_temp_ou_creation.rc != 0
+    - "'already exists' not in samba_temp_ou_creation.stderr"
+  become: true
+  with_items: "{{ samba_ous }}"

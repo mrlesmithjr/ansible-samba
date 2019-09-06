@@ -2,18 +2,18 @@
 # handlers file for ansible-samba
 - name: restart nmbd
   service:
-    name: nmbd
+    name: "{{ samba_nmbd_service_name }}"
     state: restarted
   become: true
 
 - name: restart samba-ad-dc
   service:
-    name: samba-ad-dc
+    name: "{{ samba_samba_ad_service_name }}"
     state: restarted
   become: true
 
 - name: restart smbd
   service:
-    name: smbd
+    name: "{{ samba_smbd_service_name }}"
     state: restarted
   become: true

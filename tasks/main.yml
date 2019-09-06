@@ -1,7 +1,17 @@
 ---
 # tasks file for ansible-samba
+
+- include_vars: debian.yml
+  when: ansible_os_family == "Debian"
+
+- include_vars: redhat.yml
+  when: ansible_os_family == "RedHat"
+
 - include: debian.yml
   when: ansible_os_family == "Debian"
+
+- include: redhat.yml
+  when: ansible_os_family == "RedHat"
 
 - include: samba_groups.yml
   when: samba_groups is defined
@@ -17,6 +27,14 @@
 - include: create_domain.yml
   when: >
     samba_create_domain_controller
+
+- name: makesure samba service is running
+  service:
+    name: "{{ samba_samba_ad_service_name }}"
+    state: started
+
+- include: create_ou.yml
+  when: samba_ous is defined
 
 - include: join_domain.yml
   when: >

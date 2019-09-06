@@ -9,9 +9,9 @@ services:
   - docker
 
 env:
-  # - distribution: centos
-  #   init: /usr/lib/systemd/systemd
-  #   version: 7
+  - distribution: centos
+    init: /usr/lib/systemd/systemd
+    version: 7
   # - distribution: fedora
   #   init: /usr/lib/systemd/systemd
   #   version: 29

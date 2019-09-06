@@ -28,6 +28,11 @@ samba_create_domain_users: false
 # Define Ansible group which contains your Samba domain controllers
 samba_domain_controllers_group: samba_domain_controllers
 
+samba_ous:
+  []
+  # - name: local
+  #   desc: for local testing
+
 samba_domain_groups:
   []
   # - name: ad-test-group1

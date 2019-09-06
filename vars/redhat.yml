@@ -1,0 +1,4 @@
+---
+samba_samba_ad_service_name: samba
+samba_smbd_service_name: samba
+samba_nmbd_service_name: samba
