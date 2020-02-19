@@ -1,5 +1,5 @@
 ---
-- name: domain_users | generate list of users
+- name: domain_users | generate list of users # noqa 301
   command: "samba-tool user list"
   register: domain_users
 

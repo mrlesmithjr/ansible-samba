@@ -21,4 +21,4 @@
   become: true
   register: result
   until: result is successful
-  when: samba_create_domain_controller
+  when: samba_create_domain_controller|bool
