@@ -1,7 +1,0 @@
----
-- hosts: localhost
-  connection: local
-  vars:
-    samba_primary_domain_controller: localhost
-  roles:
-    - ansible-samba
