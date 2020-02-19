@@ -9,7 +9,7 @@
     - "{{ samba_users }}"
     - groups
 
-- name: samba_users | creating samba user passwords
+- name: samba_users | creating samba user passwords # noqa 301 306
   shell: "(echo {{ item['smbpasswd'] }}; echo {{ item['smbpasswd'] }}) | smbpasswd -s -a {{ item['name'] }}"
   become: true
   with_items: "{{ samba_users }}"
