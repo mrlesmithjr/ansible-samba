@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Larry Smith Jr.
-  description: Installs and configures Samba (Ability to create AD Domains, file servers)
+  description: Ansible role to install/configure Samba
   license: MIT
   min_ansible_version: 1.2
   platforms:
