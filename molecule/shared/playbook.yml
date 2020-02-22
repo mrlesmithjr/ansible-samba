@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: all
-  vars:
-    pri_domain_name: vagrant.local
-  roles:
-    - role: ansible-samba
