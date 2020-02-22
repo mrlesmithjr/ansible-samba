@@ -1,5 +1,7 @@
 ---
 - name: Example Playbook
   hosts: all
-  roles:
-    - role: ansible-samba
+  tasks:
+    - name: Include ansible-samba
+      include_role:
+        name: ansible-samba
