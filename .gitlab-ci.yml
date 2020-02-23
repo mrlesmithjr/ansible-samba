@@ -18,11 +18,11 @@ before_script:
 molecule:
   stage: test
   script:
-    - molecule test --scenario-name centos7
+    # - molecule test --scenario-name centos7
     # - molecule test --scenario-name centos8
     # - molecule test --scenario-name debian8
     - molecule test --scenario-name debian9
     - molecule test --scenario-name debian10
-    - molecule test --scenario-name fedora
+    # - molecule test --scenario-name fedora
     - molecule test --scenario-name ubuntu1604
     - molecule test --scenario-name ubuntu1804
