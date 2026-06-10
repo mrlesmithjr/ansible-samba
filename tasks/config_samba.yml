@@ -1,12 +1,12 @@
 ---
-- name: config_samba | configuring samba
-  template:
+- name: Config_samba | Configuring samba
+  ansible.builtin.template:
     src: etc/samba/smb.conf.j2
     dest: /etc/samba/smb.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   notify:
-    - restart nmbd
-    - restart smbd
+    - Restart nmbd
+    - Restart smbd

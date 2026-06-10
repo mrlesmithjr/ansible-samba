@@ -75,16 +75,32 @@
 
 {%   for item in samba_shares %}
 [{{ item.name }}]
-browsable = {{ item.browsable|lower }}
-guest ok = {{ item.guest_ok|lower }}
+browsable = {{ item.browsable | lower }}
+guest ok = {{ item.guest_ok | lower }}
 path = {{ samba_share_path }}/{{ item.name }}
 {%     if item.read_only is defined %}
-read only = {{ item.read_only|lower }}
+read only = {{ item.read_only | lower }}
 {%     endif %}
 {%     if item.valid_users is defined %}
 valid users = {{ item.valid_users }}
 {%     endif %}
-writable = {{ item.writable|lower }}
+writable = {{ item.writable | lower }}
+{%     if item.timemachine | default(false) %}
+vfs objects = catia fruit streams_xattr
+fruit:aapl = yes
+fruit:time machine = yes
+fruit:advertise_fullsync = yes
+fruit:encoding = native
+fruit:model = RackMac
+fruit:resource = stream
+fruit:metadata = stream
+fruit:locking = none
+fruit:posix_rename = yes
+fruit:zero_file_id = yes
+fruit:wipe_intentionally_left_blank_rfork = yes
+fruit:delete_empty_adfiles = yes
+spotlight = yes
+{%     endif %}
 
 {%   endfor %}
 {% endif %}

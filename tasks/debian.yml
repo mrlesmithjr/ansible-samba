@@ -1,24 +1,33 @@
 ---
-- name: debian | installing pre-reqs
-  apt:
-    name: ["samba", "samba-common"]
+- name: Debian | Installing pre-reqs
+  ansible.builtin.apt:
+    name:
+      - samba
+      - samba-common
     state: present
   become: true
   register: result
   until: result is successful
 
-- name: debian | Installing Packages When Domain Controller
-  apt:
-    name:
-      [
-        "krb5-config",
-        "krb5-user",
-        "libnss-winbind",
-        "libpam-winbind",
-        "winbind",
-      ]
+- name: Debian | Installing acl package for setfacl support
+  ansible.builtin.apt:
+    name: acl
     state: present
   become: true
   register: result
   until: result is successful
-  when: samba_create_domain_controller|bool
+  when: samba_acl_support | bool
+
+- name: Debian | Installing Packages When Domain Controller
+  ansible.builtin.apt:
+    name:
+      - krb5-config
+      - krb5-user
+      - libnss-winbind
+      - libpam-winbind
+      - winbind
+    state: present
+  become: true
+  register: result
+  until: result is successful
+  when: samba_create_domain_controller | bool

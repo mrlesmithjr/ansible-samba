@@ -1,10 +1,49 @@
 ---
-- name: create_shares | creating shared directories
-  file:
+# Create ZFS datasets for shares that declare one, before touching the filesystem.
+- name: Create_shares | Create ZFS dataset for share
+  community.general.zfs:
+    name: "{{ item.zfs_dataset }}"
+    state: present
+    extra_zfs_properties: "{{ item.zfs_dataset_properties | default({}) }}"
+  become: true
+  loop: "{{ samba_shares }}"
+  when: item.zfs_dataset is defined
+
+# Create the base share directory for every share.
+- name: Create_shares | Creating shared directories
+  ansible.builtin.file:
     path: "{{ samba_share_path + '/' + item['name'] }}"
-    owner: "{{ item['owner']|default(omit) }}"
+    owner: "{{ item['owner'] | default(omit) }}"
     group: "{{ item['group'] }}"
     mode: "{{ item['folder_perms'] }}"
     state: directory
   become: true
-  with_items: "{{ samba_shares }}"
+  loop: "{{ samba_shares }}"
+
+# Per-user Time Machine directories: create a subdirectory per user and set ownership.
+- name: Create_shares | Create per-user Time Machine subdirectory
+  ansible.builtin.file:
+    path: "{{ samba_share_path }}/{{ item.0['name'] }}/{{ item.1 }}"
+    state: directory
+    owner: "{{ item.1 }}"
+    group: "{{ item.1 }}"
+    mode: "0775"
+  become: true
+  loop: "{{ samba_shares | subelements('timemachine_users', skip_missing=True) }}"
+  when:
+    - item.0.timemachine | default(false) | bool
+    - samba_timemachine_per_user | bool
+
+# Apply ACL entries for shares that declare an acls list.
+- name: Create_shares | Apply ACL entries on share
+  ansible.posix.acl:
+    path: "{{ samba_share_path }}/{{ item.0['name'] }}"
+    entity: "{{ item.1.entity }}"
+    etype: "{{ item.1.etype }}"
+    permissions: "{{ item.1.permissions }}"
+    state: "{{ item.1.state | default('present') }}"
+    default: "{{ item.1.default | default(omit) }}"
+    recurse: "{{ item.1.recurse | default(omit) }}"
+  become: true
+  loop: "{{ samba_shares | subelements('acls', skip_missing=True) }}"
+  when: samba_acl_support | bool

@@ -1,45 +1,54 @@
 ---
 # tasks file for ansible-samba
-- include: debian.yml
+- name: Include OS-family tasks for Debian
+  ansible.builtin.include_tasks: debian.yml
   when: ansible_os_family == "Debian"
 
-- include: samba_groups.yml
+- name: Include samba_groups tasks
+  ansible.builtin.include_tasks: samba_groups.yml
   when: samba_groups is defined
 
-- include: samba_users.yml
+- name: Include samba_users tasks
+  ansible.builtin.include_tasks: samba_users.yml
   when: samba_users is defined
 
-- include: create_shares.yml
+- name: Include create_shares tasks
+  ansible.builtin.include_tasks: create_shares.yml
   when: samba_shares is defined
 
-- include: config_samba.yml
+- name: Include config_samba tasks
+  ansible.builtin.include_tasks: config_samba.yml
 
-- include: create_domain.yml
+- name: Include create_domain tasks
+  ansible.builtin.include_tasks: create_domain.yml
   when:
-    - samba_create_domain_controller|bool
+    - samba_create_domain_controller | bool
 
-- include: join_domain.yml
+- name: Include join_domain tasks
+  ansible.builtin.include_tasks: join_domain.yml
   when:
-    - samba_create_domain_controller|bool
+    - samba_create_domain_controller | bool
     - samba_domain_controllers_group is defined
     - inventory_hostname != samba_primary_domain_controller
 
-- include: domain_users.yml
+- name: Include domain_users tasks
+  ansible.builtin.include_tasks: domain_users.yml
   tags:
     - samba_domain_account_management
     - samba_domain_users
   when:
     - samba_create_domain_users is defined
-    - samba_create_domain_users|bool
+    - samba_create_domain_users | bool
     - samba_domain_controllers_group is defined
     - inventory_hostname == samba_primary_domain_controller
 
-- include: domain_groups.yml
+- name: Include domain_groups tasks
+  ansible.builtin.include_tasks: domain_groups.yml
   tags:
     - samba_domain_account_management
     - samba_domain_groups
   when:
     - samba_create_domain_groups is defined
-    - samba_create_domain_groups|bool
+    - samba_create_domain_groups | bool
     - samba_domain_controllers_group is defined
     - inventory_hostname == samba_primary_domain_controller

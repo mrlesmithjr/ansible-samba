@@ -8,9 +8,9 @@
     mode: 0644
   become: true
   notify:
-    - restart nmbd
-    - restart smbd
-    - restart samba-ad-dc
+    - Restart nmbd
+    - Restart smbd
+    - Restart samba-ad-dc
 
 - name: create_domain | checking if domain created
   stat:

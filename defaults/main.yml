@@ -1,6 +1,14 @@
 ---
 # defaults file for ansible-samba
 pri_domain_name: example.org
+
+# ACL support: when true, installs the acl package and applies setfacl entries
+# from the per-share `acls` list.
+samba_acl_support: false
+
+# Per-user Time Machine directories: when true and a share has timemachine: true,
+# create a per-user subdirectory under the share path and apply ACLs.
+samba_timemachine_per_user: false
 samba_ad_info:
   []
   # ad_dc_hostname: "{{ ansible_hostname }}"
@@ -95,6 +103,33 @@ samba_shares:
   #   guest_ok: "no"
   #   valid_users: '@testgroup'
   #   writable: "yes"
+  # # Time Machine share example (macOS backups via Samba/fruit VFS).
+  # # Requires samba_acl_support: true and community.general + ansible.posix collections.
+  # - name: timemachine
+  #   browsable: "yes"
+  #   folder_perms: "0775"
+  #   group: timemachine
+  #   guest_ok: "no"
+  #   owner: root
+  #   read_only: "no"
+  #   writable: "yes"
+  #   timemachine: true
+  #   timemachine_users:
+  #     - alice
+  #     - bob
+  #   zfs_dataset: tank/timemachine
+  #   zfs_dataset_properties:
+  #     compression: lz4
+  #     atime: "off"
+  #   acls:
+  #     - entity: alice
+  #       etype: user
+  #       permissions: rwx
+  #       state: present
+  #     - entity: bob
+  #       etype: user
+  #       permissions: rwx
+  #       state: present
 
 # Define users to create
 samba_users:
