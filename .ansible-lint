@@ -11,3 +11,4 @@ exclude_paths:
   - molecule/ubuntu1804/
   - molecule/shared/
   - playbook.yml
+  - tests/
