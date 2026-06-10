@@ -1,36 +1,71 @@
 ---
-name: Molecule Test
-on: push
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.5, 3.6, 3.7]
+name: CI
 
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  schedule:
+    - cron: '0 6 * * 0'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          path: ansible-samba
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.x'
+
       - name: Install dependencies
         run: |
-          sudo apt install docker
           python -m pip install --upgrade pip
-          pip3 install -r requirements.txt
-          ansible --version
-          molecule --version
-      - name: Test with molecule
+          pip install ansible-lint yamllint
+
+      - name: Run yamllint
+        run: yamllint .
+
+      - name: Run ansible-lint
+        run: ansible-lint
+
+  syntax-check:
+    name: Syntax Check (Ansible ${{ matrix.ansible-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ansible-version:
+          - '2.15'
+          - '2.16'
+          - '2.17'
+          - '2.18'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
         run: |
-          # molecule test --scenario-name centos7
-          # molecule test --scenario-name centos8
-          # molecule test --scenario-name debian8
-          molecule test --scenario-name debian9
-          molecule test --scenario-name debian10
-          # molecule test --scenario-name fedora
-          molecule test --scenario-name ubuntu1604
-          molecule test --scenario-name ubuntu1804
+          python -m pip install --upgrade pip
+          pip install "ansible-core~=${{ matrix.ansible-version }}"
+
+      - name: Check Ansible version
+        run: ansible --version
+
+      - name: Create ansible.cfg with correct roles_path
+        run: printf '[defaults]\nroles_path=../' >ansible.cfg
+
+      - name: Basic role syntax check
+        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
