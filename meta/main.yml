@@ -5,7 +5,7 @@ galaxy_info:
   role_name: samba
   description: Ansible role to install/configure Samba
   license: MIT
-  min_ansible_version: 1.2
+  min_ansible_version: "2.14"
   platforms:
     - name: Debian
       versions:

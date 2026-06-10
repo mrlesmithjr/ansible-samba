@@ -1,6 +1,6 @@
 ---
-- name: samba_groups | ensuring groups exist
-  group:
+- name: Samba_groups | Ensuring groups exist
+  ansible.builtin.group:
     name: "{{ item }}"
     state: present
   become: true

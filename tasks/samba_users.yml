@@ -1,6 +1,6 @@
 ---
-- name: samba_users | adding samba users to samba groups
-  user:
+- name: Samba_users | Adding samba users to samba groups
+  ansible.builtin.user:
     name: "{{ item[0]['name'] }}"
     groups: "{{ item[1] }}"
     append: yes
@@ -9,7 +9,8 @@
     - "{{ samba_users }}"
     - groups
 
-- name: samba_users | creating samba user passwords # noqa 301 306
-  shell: "(echo {{ item['smbpasswd'] }}; echo {{ item['smbpasswd'] }}) | smbpasswd -s -a {{ item['name'] }}"
+- name: Samba_users | Creating samba user passwords # noqa risky-shell-pipe
+  ansible.builtin.shell: "(echo {{ item['smbpasswd'] }}; echo {{ item['smbpasswd'] }}) | smbpasswd -s -a {{ item['name'] }}"
   become: true
+  changed_when: true
   with_items: "{{ samba_users }}"

@@ -144,7 +144,7 @@ samba_users:
   #     - testgroup
   #   # Define samba user password
   #   smbpasswd: P@55w0rd
-samba_workgroup: "{{ samba_netbios_domain_name[0]|upper }}"
+samba_workgroup: "{{ samba_netbios_domain_name[0] | upper }}"
 
 # Printers options
 samba_use_printers: False

@@ -1,26 +1,28 @@
 ---
-- name: domain_groups | Generate Domain Group List
-  command: samba-tool group list
+- name: Domain_groups | Generate domain group list
+  ansible.builtin.command: samba-tool group list
   register: _samba_domain_groups
   become: true
   changed_when: false
 
-- name: domain_groups | Creating Domain Groups
-  command: samba-tool group add {{ item['name'] }}
+- name: Domain_groups | Creating domain groups
+  ansible.builtin.command: samba-tool group add {{ item['name'] }}
   become: true
+  changed_when: true
   with_items: "{{ samba_domain_groups }}"
   when: item['name'] not in _samba_domain_groups['stdout']
 
-- name: domain_groups | Capturing Domain Group Members
-  command: samba-tool group listmembers "{{ item['name'] }}"
+- name: Domain_groups | Capturing domain group members
+  ansible.builtin.command: samba-tool group listmembers "{{ item['name'] }}"
   become: true
   register: _samba_domain_group_members
   changed_when: false
   with_items: "{{ samba_domain_groups }}"
 
-- name: domain_groups | Managing Domain Group Members
-  command: samba-tool group addmembers {{ item.0.item.name }} {{ item.1 }}
+- name: Domain_groups | Managing domain group members
+  ansible.builtin.command: samba-tool group addmembers {{ item.0.item.name }} {{ item.1 }}
   become: true
+  changed_when: true
   with_subelements:
     - "{{ _samba_domain_group_members['results'] }}"
     - item.members

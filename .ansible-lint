@@ -1,0 +1,13 @@
+---
+profile: production
+exclude_paths:
+  - molecule/centos7/
+  - molecule/centos8/
+  - molecule/debian8/
+  - molecule/debian9/
+  - molecule/debian10/
+  - molecule/fedora/
+  - molecule/ubuntu1604/
+  - molecule/ubuntu1804/
+  - molecule/shared/
+  - playbook.yml
